@@ -3,14 +3,24 @@ interface Props {
   onLabelClick?: (term: string) => void;
 }
 
+// Lista de búsquedas anteriores clickeables
 export default function PreviousSearches({ searches, onLabelClick }: Props) {
   return (
     <div className="previous-searches">
-      <h2>Busquedas previas</h2>
+      <h2>Búsquedas previas</h2>
       <ul className="previous-searches-list">
-        {/* <li>Gatos</li> */}
         {searches.map((term) => (
-          <li onClick={() => onLabelClick?.(term)} key={term}>
+          <li
+            onClick={() => onLabelClick?.(term)}
+            key={term}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                onLabelClick?.(term);
+              }
+            }}
+          >
             {term}
           </li>
         ))}

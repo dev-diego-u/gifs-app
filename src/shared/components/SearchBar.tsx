@@ -1,26 +1,30 @@
 import { useEffect, useState, type KeyboardEvent } from "react";
 
 interface Props {
-  placeholder?: string; // Placeholder del input
-  onQuery: (query: string) => void; // Función que ejecuta la búsqueda
+  placeholder?: string;
+  onQuery: (query: string) => void;
 }
 
-// Barra de búsqueda con debounce automático (700ms)
+// Barra de búsqueda con debounce automático (700ms) y búsqueda manual
 export default function SearchBar({ placeholder, onQuery }: Props) {
+  // Estado del texto de búsqueda
   const [query, setQuery] = useState("");
 
-  // Debounce: busca automáticamente después de 700ms sin cambios
+  // Contador para debugging (opcional)
+  // const counterRef = useRef(0);
+
+  // Efecto de debounce: ejecuta búsqueda automática después de 700ms
   useEffect(() => {
-    console.log("ejecutando useefect");
+    // counterRef.current++;
+    // console.log(`🔥 useEffect ejecutado #${counterRef.current} - ${query}`);
+
     const timeoutId = setTimeout(() => {
       onQuery(query);
-      // setQuery("");
     }, 700);
 
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [query, onQuery]); //le dice a useEffect que se ejecute cuando query o onQuery cambien
+    // Cleanup: cancela timeout anterior
+    return () => clearTimeout(timeoutId);
+  }, [query, onQuery]);
 
   // Búsqueda manual: ejecuta inmediatamente y limpia input
   const handleSearch = () => {
@@ -28,7 +32,7 @@ export default function SearchBar({ placeholder, onQuery }: Props) {
     setQuery("");
   };
 
-  // Maneja Enter para búsqueda manual
+  // Maneja tecla Enter para búsqueda manual
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSearch();

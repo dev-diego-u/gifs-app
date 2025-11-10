@@ -1,5 +1,7 @@
-import React from "react";
-import { Gif } from "../../mock-data/gifs.mock";
+// import React from "react";
+// import { Gif } from "../../mock-data/gifs.mock";
+
+import { Gif } from "../interfaces/gif.interface";
 
 interface Props {
   mockGifs: Gif[];
